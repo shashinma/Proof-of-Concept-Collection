@@ -1,0 +1,4 @@
+#pragma once
+#include "bot_structs.h"
+
+BOOL File_WriteBuffer(const LPWSTR pwzPath, const LPVOID lpBuffer, DWORD dwLength);

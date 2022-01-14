@@ -1,0 +1,10 @@
+#pragma once
+#include "bot_structs.h"
+
+enum REGISTRY_HIVE
+{
+	HKEY_CURRENT_USER = 0,
+	HKEY_LOCAL_MACHINE = 1
+}
+
+BOOL Registry_OpenKeyEx(const LPWSTR pwzKeyPath, HANDLE* phRegistry, ACCESS_MASK am);

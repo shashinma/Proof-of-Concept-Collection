@@ -1,0 +1,15 @@
+#pragma once
+#include "bot_structs.h"
+
+typedef struct
+{      
+	BYTE state[256];       
+	BYTE x;        
+	BYTE y;
+}RC4KEY;
+
+void rc4Init(const void *binKey, WORD binKeySize, RC4KEY *key);
+void rc4(void *buffer, DWORD size, RC4KEY *key);
+void rc4Full(const void *binKey, WORD binKeySize, void *buffer, DWORD size);
+void _RC4( BYTE* pKey, DWORD dwBufferLen, BYTE* pBuffer, DWORD dwKeyLen );
+LPBYTE _RC4GenKey(LPBYTE pKey, DWORD dwKeySize);

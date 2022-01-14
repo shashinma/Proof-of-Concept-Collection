@@ -1,0 +1,50 @@
+#include "crypto.h"
+
+#define swap_byte(a, b) {swapByte = a; a = b; b = swapByte;}
+
+void rc4Init(const void *binKey, WORD binKeySize, RC4KEY *key)
+{
+	register BYTE swapByte;
+	register BYTE index1 = 0, index2 = 0;
+	LPBYTE state = &key->state[0];
+	register WORD i;
+
+	key->x = 0;
+	key->y = 0;
+
+	for(i = 0; i < 256; i++)state[i] = i;
+	for(i = 0; i < 256; i++)
+	{
+		index2 = (((LPBYTE)binKey)[index1] + state[i] + index2) & 0xFF;
+		swap_byte(state[i], state[index2]);
+		if(++index1 == binKeySize)index1 = 0;
+	}
+}
+
+void rc4(void *buffer, DWORD size, RC4KEY *key)
+{
+	DWORD i;
+	register BYTE swapByte;
+	register BYTE x = key->x;
+	register BYTE y = key->y;
+	LPBYTE state = &key->state[0];
+
+	for(i = 0; i < size; i++)
+	{
+		x = (x + 1) & 0xFF;
+		y = (state[x] + y) & 0xFF;
+		swap_byte(state[x], state[y]);
+		((LPBYTE)buffer)[i] ^= state[(state[x] + state[y]) & 0xFF];
+	}
+
+	key->x = x;
+	key->y = y; 
+
+}
+
+void rc4Full(const void *binKey, WORD binKeySize, void *buffer, DWORD size)
+{
+	RC4KEY key;
+	rc4Init(binKey, binKeySize, &key);
+	rc4(buffer, size, &key);
+}

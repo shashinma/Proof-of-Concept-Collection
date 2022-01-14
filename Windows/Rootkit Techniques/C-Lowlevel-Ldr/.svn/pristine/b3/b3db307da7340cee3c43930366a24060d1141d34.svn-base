@@ -1,0 +1,66 @@
+#include "debug.h"
+
+#ifdef MODULE_DEBUG
+#include <ShellAPI.h>
+#include <Shlobj.h>
+#include <Tlhelp32.h>
+
+#include "../common/mem.h"
+#include "../common/string.h"
+
+static HANDLE hDebugFile = INVALID_HANDLE_VALUE;
+
+void WINAPI InitDebug(void)
+{
+	wchar_t wzDesktopPath[255], wzDebugPath[255];
+	memzero(&wzDesktopPath, sizeof(wzDesktopPath));
+	SHGetSpecialFolderPathW(0, wzDesktopPath, CSIDL_DESKTOP, FALSE);
+
+	memzero(&wzDebugPath, sizeof(wzDebugPath));
+	wsprintfW(wzDebugPath, L"%s\\debug.txt", wzDesktopPath);
+
+	hDebugFile = CreateFileW(wzDebugPath, FILE_APPEND_DATA, FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+}
+
+static LPSTR _GetCurrentProcessName()
+{
+	HANDLE hSnapshot;
+	PROCESSENTRY32 pe32;
+	static LPSTR pszProcessName;
+
+	if((hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0)) == INVALID_HANDLE_VALUE)
+		return NULL;
+
+	memzero(&pe32, sizeof(PROCESSENTRY32));
+	pe32.dwSize = sizeof(PROCESSENTRY32);
+	pszProcessName = NULL;
+
+	if(Process32First(hSnapshot, &pe32))
+	{
+		do 
+		{
+			if(pe32.th32ProcessID == GetCurrentProcessId())
+			{
+				pszProcessName = pe32.szExeFile;
+				break;
+			}
+		} 
+		while (Process32Next(hSnapshot, &pe32));
+	}
+
+	CloseHandle(hSnapshot);
+
+	return pszProcessName;
+}
+
+void WINAPI WriteDebugData(const LPSTR pszFunction, const LPSTR pszData, const LPSTR pszFile, int iLine)
+{
+	char szBuffer[3072];
+	DWORD dwWritten;
+
+	memzero(&szBuffer, sizeof(szBuffer));
+	wsprintfA(szBuffer, "Function=\"%s\" File=\"%s\" Line=\"%d\" PID=\"0x%x\" Name=\"%s\"\r\n Data=\"%s\"\r\n", pszFunction, pszFile, iLine, GetCurrentProcessId(), NULL, pszData);
+	
+	WriteFile(hDebugFile, szBuffer, lstrlenA(szBuffer), &dwWritten, NULL);
+}
+#endif

@@ -1,0 +1,55 @@
+#include "file.h"
+
+#include "mem.h"
+#include "utils.h"
+
+extern bot_t bot;
+
+HANDLE _GetFileHandle(const LPWSTR pwzPath)
+{
+	HANDLE hFile;
+	OBJECT_ATTRIBUTES os;
+	IO_STATUS_BLOCK io;
+
+	memzero(&io, sizeof(IO_STATUS_BLOCK));
+	memzero(&os, sizeof(OBJECT_ATTRIBUTES));
+
+	os.Length = sizeof(OBJECT_ATTRIBUTES);
+
+	if((os.ObjectName = memalloc(sizeof(UNICODE_STRING))) == 0)
+		return INVALID_HANDLE_VALUE;
+
+	CWA(RtlInitUnicodeString)(os.ObjectName, pwzPath);
+	os.Attributes = OBJ_CASE_INSENSITIVE;
+	
+	hFile = INVALID_HANDLE_VALUE;
+
+	if(!(CWA(NtCreateFile)(&hFile, FILE_GENERIC_READ | /*FILE_GENERIC_WRITE |*/ FILE_APPEND_DATA/*GENERIC_ALL | SYNCHRONIZE*/, &os, &io, 0, FILE_ATTRIBUTE_NORMAL, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, FILE_OPEN_IF, FILE_SYNCHRONOUS_IO_NONALERT | FILE_RANDOM_ACCESS, 0, 0) >= 0))
+		hFile = INVALID_HANDLE_VALUE;
+	
+	memfree(os.ObjectName);
+
+	return hFile;
+}
+
+
+BOOL File_WriteBuffer(const LPWSTR pwzPath, const LPVOID lpBuffer, DWORD dwLength)
+{
+	BOOL bSuccess;
+	HANDLE hFile;
+	IO_STATUS_BLOCK io;
+
+	bSuccess = FALSE;
+
+	if((hFile = _GetFileHandle(pwzPath)) != INVALID_HANDLE_VALUE)
+	{
+		memzero(&io, sizeof(IO_STATUS_BLOCK));
+
+		if(CWA(NtWriteFile)(hFile, 0, 0, 0, &io, lpBuffer, dwLength, 0, 0) >= 0)
+			bSuccess = TRUE;
+
+		CWA(NtClose)(hFile);
+	}
+
+	return bSuccess;
+}

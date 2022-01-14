@@ -1,0 +1,22 @@
+#include "..\common\bot_structs.h"
+
+#include "..\common\api.h"
+#include "..\common\string.h"
+#include "..\common\mem.h"
+
+bot_t bot;
+
+int main()
+{
+	LPSTR pszData;
+	DWORD dwLength, dwHash;
+
+	pszData = "StrStrW";
+	dwLength = StrLengthA(pszData);
+
+	memzero(&bot, sizeof(bot_t));
+
+	dwHash = crc32Hash(pszData, dwLength);
+
+	return 0;
+}

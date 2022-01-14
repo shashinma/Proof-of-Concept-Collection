@@ -1,0 +1,11 @@
+#pragma once
+#include "modules.h"
+
+#ifdef MODULE_FORMGRABBER
+#include "..\common\bot_structs.h"
+
+void initChromeHooks(HMODULE hMod);
+void installChromeHooks(HMODULE hMod);
+void tryInstallChromeHooks(void);
+
+#endif

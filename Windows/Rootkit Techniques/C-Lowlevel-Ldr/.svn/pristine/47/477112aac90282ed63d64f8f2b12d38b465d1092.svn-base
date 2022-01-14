@@ -1,0 +1,78 @@
+#include <Winsock2.h>
+#include <Windows.h>
+
+#include "..\common\api.h"
+#include "..\common\mem.h"
+#include "..\common\string.h"
+#include "..\common\utils.h"
+
+bot_t bot;
+
+static LPSTR _BuildShellcodeFromBuffer(const LPVOID lpBuffer, DWORD dwBufferSize, DWORD* pdwSize)
+{
+	LPSTR pszBuffer;
+	BYTE* pBuffer;
+	char szBuffer[4];
+	DWORD i, dwLength, dwBuffLen;
+
+	if((pBuffer = (BYTE*)lpBuffer) == NULL)
+		return NULL;
+
+	pszBuffer = NULL;
+
+	pszBuffer = StrConcatA(pszBuffer, "unsigned char bot_shellcode[] = {");
+	dwLength = StrLengthA(pszBuffer);
+
+	for(i = 0; i < dwBufferSize; i++)
+	{
+		memzero(&szBuffer, sizeof(szBuffer));
+		dwBuffLen = CWA(wsprintfA)(szBuffer, "0x%02x", pBuffer[i]);
+		//pszBuffer = StrConcatA(pszBuffer, szBuffer);
+
+		pszBuffer = StrConcatExA(pszBuffer, dwLength, szBuffer, dwBuffLen);
+		dwLength += dwBuffLen;
+
+		if(i != dwBufferSize - 1)
+		{
+			pszBuffer = StrConcatExA(pszBuffer, dwLength, ",", 1);
+			dwLength += 1;
+		}
+	}
+
+	pszBuffer = StrConcatExA(pszBuffer, dwLength, "};", 2);
+	dwLength += 1;
+
+	*pdwSize = dwLength;
+
+	return pszBuffer;
+}
+
+int main(int argc, char **argv)
+{
+	LPWSTR pwzInputFile, pwzOutputFile;
+	LPVOID lpInputFile;
+	DWORD dwInputFileSize, dwShellcodeSize;
+	LPSTR pszShellcode;
+
+// 	if(argc != 2)
+// 		return 0;
+
+	if(!InitializeAPI())
+		return 0;
+
+	pwzInputFile = L"E:\\backup\\v\\bot\\Release\\bot.dll";
+	pwzOutputFile = L"E:\\backup\\v\\bot\\Release\\shellcode_x86.h";
+
+	//pwzInputFile = ansiToUnicodeEx(argv[0], StrLengthA(argv[0]));
+	//pwzOutputFile = ansiToUnicodeEx(argv[1], StrLengthA(argv[1]));
+
+	if((lpInputFile = ReadFileFromDisk(pwzInputFile, &dwInputFileSize)) == NULL)
+		return 0;
+
+	if((pszShellcode = _BuildShellcodeFromBuffer(lpInputFile, dwInputFileSize, &dwShellcodeSize)) == NULL)
+		return 0;
+
+	WriteFileToDisk(pszShellcode, dwShellcodeSize, pwzOutputFile);
+
+	return 0;
+}

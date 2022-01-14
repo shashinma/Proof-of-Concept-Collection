@@ -1,0 +1,29 @@
+#include "..\common\bot_structs.h"
+
+#include "..\common\api.h"
+#include "..\common\string.h"
+#include "..\common\mem.h"
+
+bot_t bot;
+
+int main()
+{
+	LPSTR pszData;
+	DWORD dwLength, dwHash;
+	LPWSTR test;
+	wchar_t wzData[] = L"faggot ass nigger";
+
+	memzero(&bot, sizeof(bot_t));
+
+	if(!InitializeAPI())
+		return 0;
+
+	pszData = "TerminateThread";
+	dwLength = StrLengthA(pszData);
+
+	dwHash = crc32Hash(pszData, dwLength);
+
+	test = StrCopyW(wzData, StrLengthW(wzData));
+
+	return 0;
+}

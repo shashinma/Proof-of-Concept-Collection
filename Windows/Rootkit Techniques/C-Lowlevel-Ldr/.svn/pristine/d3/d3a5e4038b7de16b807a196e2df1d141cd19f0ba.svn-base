@@ -1,0 +1,27 @@
+#include "registry.h"
+#include "mem.h
+#include "string.h"
+
+extern bot_t bot;
+
+BOOL Registry_OpenKeyEx(const LPWSTR pwzKeyPath, HANDLE* phRegistry, ACCESS_MASK am)
+{
+	OBJECT_ATTRIBUTES obj;
+	UNICODE_STRING us;
+	BOOL bSuccess;
+
+	if(!String_ToUnicodeString(&us, pwzKeyPath))
+		return FALSE;
+
+	bSuccess = FALSE;
+
+	memzero(&obj, sizeof(OBJECT_ATTRIBUTES));
+	obj.Length = sizeof(OBJECT_ATTRIBUTES);
+	obj.Attributes = OBJ_CASE_INSENSITIVE;
+	obj.ObjectName = &us;
+
+	if(CWA(NtOpenKey)(phRegistry, am, &obj) >= 0)
+		bSuccess = TRUE;
+
+	return bSuccess;
+}

