@@ -1,0 +1,33 @@
+[package]
+name = "dbtools"
+version = "1.0.0"
+authors = ["landhb <landhb@github>"]
+edition = "2018"
+description = """
+Usermode tools for Drawbridge. A Layer 4 Single Packet Authentication Linux kernel
+module utilizing Netfilter hooks and kernel supported Berkeley Packet Filters (BPF) 
+"""
+keywords = ["spa", "auth", "netfilter", "linux-kernel"]
+categories = ["command-line-utilities"]
+homepage = "https://github.com/landhb/Drawbridge"
+repository = "https://github.com/landhb/Drawbridge"
+readme = "README.md"
+license = "GPL-3.0-or-later"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+# Multi-command utility to send auth packets
+# generate keys, etc.
+[[bin]]
+name = "db"
+path = "src/main.rs"
+
+[dependencies]
+pnet = "0.23.0"
+libc = "0.2.66"
+failure = "0.1.6"
+rand = "0.3"
+clap = "2.33.0"
+ring = "0.16.11"
+openssl = { version = "0.10.28", features = ["vendored"] }
+shellexpand = "2.0.0"
